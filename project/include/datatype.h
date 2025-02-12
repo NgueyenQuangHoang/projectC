@@ -12,6 +12,7 @@ typedef struct Book{
     char title[30];
     char author[20];
     int quantity;
+    char price[10];
     Date publication;
 }Book;
 

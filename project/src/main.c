@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "function.c"
+#include "functionCheck.c"
+
 int main(int argc, char *argv[]) {
     loadBookData();
     int choice;
@@ -8,10 +9,10 @@ int main(int argc, char *argv[]) {
 
     switch (choice) {
         case 1:
-            adminMenu();
+            bookManagement();
             break;
         case 2:
-            
+            customerManagement();
             break;
         case 3:
             
