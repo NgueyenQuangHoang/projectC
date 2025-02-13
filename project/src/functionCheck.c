@@ -9,7 +9,7 @@ int bookCount = 0;
 
 // load va save data+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 void loadBookData(){
-    FILE *file = fopen("book.dat", "rb");
+    FILE *file = fopen("book.bin", "rb");
     if (file == NULL)
     {
         printf("Cannot open file.\n");
@@ -23,7 +23,7 @@ void loadBookData(){
 }
 
 void saveBookData(){
-    FILE *file = fopen("book.dat", "wb");
+    FILE *file = fopen("book.bin", "wb");
     if (file == NULL)
     {
         printf("Cannot open file.\n");
@@ -131,16 +131,16 @@ void displayBooklist(){
         return;
     }
     printf("\t\t\t\t\t**BOOK LIST**\n");
-    printf("|===|==============================|====================|===|===========|===============|\n");
-    printf("|ID | Title                        | Author             |Qty| Published | Price         |\n");
-    printf("|===|==============================|====================|===|===========|===============|\n");
+    printf("|====|===============================|=====================|====|============|================|\n");
+    printf("|ID  | Title                         | Author              |Qty | Published  | Price          |\n");
+    printf("|====|===============================|=====================|====|============|================|\n");
     for (int i = 0; i < bookCount; i++)
     {
-       printf("| %-2s | %-29s | %-19s | %-2d | %02d/%02d/%04d | %-14s |\n", 
+       printf("| %-2s | %-29s | %-19s | %-2d | %02d/%02d/%04d | %-14s |%d\n", 
             books[i].bookId, books[i].title, books[i].author, books[i].quantity, 
-            books[i].publication.date, books[i].publication.month, books[i].publication.year, books[i].price);
+            books[i].publication.date, books[i].publication.month, books[i].publication.year, books[i].price, i);
     }
-    printf("|===|==============================|====================|===|===========|===============|\n");
+    printf("|====|===============================|=====================|====|============|================|\n");
 }
 
 void addBook(){// them sach++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -163,7 +163,7 @@ void addBook(){// them sach+++++++++++++++++++++++++++++++++++++++++++++++++++++
 void editBook(){
     char id[10];
     printf("Enter ID of book to edit:...");
-    scanf("%s", &id);
+    scanf("%s", id);
     for (int i = 0; i < bookCount; i++)
     {
         if (strcmp(books[i].bookId, id) == 0)
@@ -178,7 +178,7 @@ void editBook(){
             printf("Book edited");
             return;
         }
-        printf("Book not found.\n");
+        else("Book not found.\n");
     }
     
 }
@@ -206,16 +206,18 @@ void deleteBook(){
 void searchBook(){
     char title[30];
     printf("Enter title to search:...");
-    scanf("%s", &title);
+    getchar(); 
+    fgets(title, 30, stdin);
+    title[strcspn(title, "\n")] = '\0'; 
     for (int i = 0; i < bookCount; i++)
     {
         if (strcmp(books[i].title, title) == 0)
         {
-            printf("|===|==============================|====================|===|===========|===============|\n");
+            printf("|====|===============================|=====================|====|============|================|\n");
             printf("| %-2s | %-29s | %-19s | %-2d | %02d/%02d/%04d | %-14s |\n", 
             books[i].bookId, books[i].title, books[i].author, books[i].quantity, 
             books[i].publication.date, books[i].publication.month, books[i].publication.year, books[i].price);
-            printf("|===|==============================|====================|===|===========|===============|\n");
+            printf("|====|===============================|=====================|====|============|================|\n");
             return;
         }
     }
@@ -225,9 +227,9 @@ void searchBook(){
 void Sort(){
     int choice;
     printf("sort by...\n");
-    printf("[1] Highest price.");
-    printf("[2] Lowest price");
-    printf("[0] Exit");
+    printf("[1] Highest price.\n");
+    printf("[2] Lowest price\n");
+    printf("[0] Exit\n");
     printf("Enter the choice...");
     scanf("%d", &choice);
     switch (choice)
@@ -236,9 +238,9 @@ void Sort(){
         for (int i = 0; i < bookCount; i++)
         {
             int maxIdx = i;
-            for (int j = i + 1; i < bookCount; j++)
+            for (int j = i + 1; j < bookCount; j++)
             {
-                if (books[j].price > books[maxIdx].price)
+                if (strcmp(books[j].price, books[maxIdx].price) > 0)
                 {
                     maxIdx = j;
                 }
@@ -258,9 +260,9 @@ void Sort(){
         for (int i = 0; i < bookCount; i++)
         {
             int minIdx = i;
-            for (int j = i + 1; i < bookCount; j++)
+            for (int j = i + 1; j < bookCount; j++)
             {
-                if (books[j].price < books[minIdx].price)
+                if (strcmp(books[j].price, books[minIdx].price) < 0)
                 {
                     minIdx = j;
                 }
@@ -277,6 +279,7 @@ void Sort(){
         printf("Sorted by lowest price.\n");
         break;
     case 0:
+        printf("Returning to main menu...\n");
         break;
     default:
         printf("Invalid choice. Please try again.\n");
@@ -284,36 +287,6 @@ void Sort(){
     }
 }
 // function Quản lý customer+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-// menu chinh+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-void mainMenu(){
-    int choice;
-    do {
-        printf("***library management System\n");
-        printf("\t\tCHOOSE YOUR ROLE\n");
-        printf("\t======================\n");
-        printf("\t[1] Admin.\n");
-        printf("\t[2] Member.\n");
-        printf("\t[0] Exit\n");
-        printf("\t======================\n");
-        printf("Enter The Choice...");
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1:
-                bookManagement();
-                break;
-            case 2:
-                customerManagement();
-                break;
-            case 0:
-                printf("Exiting...\n");
-                break;
-            default:
-                printf("Invalid choice. Please try again.\n");
-        }
-    } while (choice != 0);
-}
-
 // menu book(admin)++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 void showBookManagement(){
     printf("***library management System\n");
@@ -363,7 +336,7 @@ void bookManagement(){
     } while (choice != 0);
 }
 
-// menu book(student)++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// menu book(cus)++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 void showCustomerManagement(){
     printf("***library management System\n");
     printf("\t\tMEMBER MENU\n");
@@ -397,6 +370,35 @@ void customerManagement(){
                 break;
             case 0:
                 printf("Returning to main menu...\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 0);
+}
+
+// menu chinh+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void mainMenu(){
+    int choice;
+    do {
+        printf("***library management System\n");
+        printf("\t\tCHOOSE YOUR ROLE\n");
+        printf("\t======================\n");
+        printf("\t[1] Admin.\n");
+        printf("\t[2] Member.\n");
+        printf("\t[0] Exit\n");
+        printf("\t======================\n");
+        printf("Enter The Choice...");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                bookManagement();
+                break;
+            case 2:
+                customerManagement();
+                break;
+            case 0:
+                printf("Exiting...\n");
                 break;
             default:
                 printf("Invalid choice. Please try again.\n");
