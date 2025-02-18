@@ -1,0 +1,1 @@
+strcpy(cus[cusIndex].borrowedBook, bookId);
