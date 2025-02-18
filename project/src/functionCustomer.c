@@ -229,49 +229,6 @@ void searchCustomerByName() {
     }
 }
 
-void borrowBook() {
-    char idC[10];
-    printf("Enter id of customer to borrow book: ");
-    scanf("%s", idC);
-    getchar(); // clear newline character from input buffer
-
-    for (int i = 0; i < cusCount; i++) {
-        if (strcmp(cus[i].cusId, idC) == 0) {
-            if (strlen(cus[i].borrowedBook) != 0) {
-                printf("Customer already borrowed a book. Return the current book before borrowing a new one.\n");
-                return;
-            }
-            printf("Enter the name of the book to borrow: ");
-            fgets(cus[i].borrowedBook, 50, stdin);
-            cus[i].borrowedBook[strcspn(cus[i].borrowedBook, "\n")] = '\0';
-            saveCusData();
-            printf("Book borrowed successfully.\n");
-            return;
-        }
-    }
-    printf("Customer not found.\n");
-}
-
-void returnBook() {
-    char idC[10];
-    printf("Enter id of customer to return book: ");
-    scanf("%s", idC);
-    getchar(); // clear newline character from input buffer
-
-    for (int i = 0; i < cusCount; i++) {
-        if (strcmp(cus[i].cusId, idC) == 0) {
-            if (strlen(cus[i].borrowedBook) == 0) {
-                printf("Customer has no borrowed book to return.\n");
-                return;
-            }
-            cus[i].borrowedBook[0] = '\0'; 
-            saveCusData();
-            printf("Book returned successfully.\n");
-            return;
-        }
-    }
-    printf("Customer not found.\n");
-}
 // menu book(cus)++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 void showCustomerManagement(){
     printf("***library management System\n");
@@ -313,10 +270,10 @@ void customerManagement(){
                 searchCustomerByName();
                 break;
             case 6:
-                borrowBook();
+                // borrowBook();
                 break;
             case 7:
-                returnBook();
+                // returnBook();
                 break;
             case 0:
                 printf("Returning to main menu...\n");

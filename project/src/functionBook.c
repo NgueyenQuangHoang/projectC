@@ -131,16 +131,16 @@ void displayBooklist(){
         return;
     }
     printf("\t\t\t\t\t**BOOK LIST**\n");
-    printf("|======|==============================|=====================|====|============|================|\n");
-    printf("|id    | Title                        | Author              |Qty | Published  | Price          |\n");
-    printf("|======|==============================|=====================|====|============|================|\n");
+    printf("|======|===============================|=====================|====|============|================|\n");
+    printf("|id    | Title                         | Author              |Qty | Published  | Price          |\n");
+    printf("|======|===============================|=====================|====|============|================|\n");
     for (int i = 0; i < bookCount; i++)
     {
-        printf("| %-3s | %-29s | %-19s | %-2d | %02d/%02d/%04d | %-14s |\n",
+        printf("| %-4s | %-29s | %-19s | %-2d | %02d/%02d/%04d | %-14s |\n",
                books[i].bookId, books[i].title, books[i].author, books[i].quantity,
                books[i].publication.date, books[i].publication.month, books[i].publication.year, books[i].price);
     }
-    printf("|======|==============================|=====================|====|============|================|\n");
+    printf("|======|===============================|=====================|====|============|================|\n");
 }
 
 void addBook(){// them sach++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -213,11 +213,11 @@ void searchBook(){
     {
         if (strcmp(books[i].title, title) == 0)
         {
-            printf("|====|===============================|=====================|====|============|================|\n");
-            printf("| %-2s | %-29s | %-19s | %-2d | %02d/%02d/%04d | %-14s |\n", 
+            printf("|======|===============================|=====================|====|============|================|\n");
+            printf("| %-4s | %-29s | %-19s | %-2d | %02d/%02d/%04d | %-14s |\n", 
             books[i].bookId, books[i].title, books[i].author, books[i].quantity, 
             books[i].publication.date, books[i].publication.month, books[i].publication.year, books[i].price);
-            printf("|====|===============================|=====================|====|============|================|\n");
+            printf("|======|===============================|=====================|====|============|================|\n");
             return;
         }
     }
@@ -232,6 +232,7 @@ void Sort(){
     printf("[0] Exit\n");
     printf("Enter the choice...");
     scanf("%d", &choice);
+    clearScreen();
     switch (choice)
     {
     case 1:
